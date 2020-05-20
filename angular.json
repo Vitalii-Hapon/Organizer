@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Organizer"
+    }
+  },
+  "defaultProject": "Organizer",
+  "cli": {
+    "analytics": false
+  }
 }
