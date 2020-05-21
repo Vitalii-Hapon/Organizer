@@ -1,16 +1,18 @@
 <p>
 
-  <i class="material-icons">
+  <i class="material-icons"
+     (click)="toGo(-1)">
     arrow_left
   </i>
 
 
   <span>
-    date
+    {{dateService.data | async | moment}}
   </span>
 
 
-  <i class="material-icons">
+  <i class="material-icons"
+     (click)="toGo(1)">
     arrow_right
   </i>
 
