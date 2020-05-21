@@ -3,10 +3,13 @@
 
 :root {
   --primary-color: #dc3545;
-  --dark-color: #333333;
+  --secondary-color: #0000FF;
+  --dark-color: #2d2d2d;
   --light-color: #f4f4f4;
   --gray-color: #666;
   --wight-color: #fff;
+  --hover-color: #eee;
+  --body-color: #FCFCFC;
 }
 
 * {
@@ -17,9 +20,9 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
-  background: var(--wight-color);
+  background: var(--body-color);
   color: var(--dark-color);
 }
 

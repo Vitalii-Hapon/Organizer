@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DateService} from '../../core/services/date.service';
 
 @Component({
@@ -8,10 +8,10 @@ import {DateService} from '../../core/services/date.service';
 })
 export class SelectorComponent implements OnInit {
 
-  constructor(private dateService: DateService) { }
+  constructor(public dateService: DateService) {
+  }
 
   ngOnInit(): void {
-    console.log(this.dateService.data);
   }
 
   toGo(direction: number) {
