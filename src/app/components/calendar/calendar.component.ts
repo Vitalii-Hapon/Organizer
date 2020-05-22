@@ -25,7 +25,7 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dateService.data.subscribe(this.getMonth.bind(this));
+    this.dateService.date.subscribe(this.getMonth.bind(this));
   }
 
   getMonth(chosenDate: moment.Moment) {
@@ -57,7 +57,6 @@ export class CalendarComponent implements OnInit {
   }
 
   selectDay(date: moment.Moment) {
-    console.log(date);
     this.dateService.changeDay(date);
   }
 }
