@@ -46,6 +46,10 @@ ul {
   margin-bottom: .5rem;
 }
 
+.completed {
+  text-decoration: line-through;
+}
+
 .btn {
   display: inline-block;
   background: var(--light-color);

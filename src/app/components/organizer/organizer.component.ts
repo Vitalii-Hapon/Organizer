@@ -10,7 +10,7 @@ import {switchMap} from 'rxjs/operators';
   styleUrls: ['./organizer.component.scss']
 })
 export class OrganizerComponent implements OnInit {
-  loading = true;
+  // loading = true;
   tasks: ITask[] = [];
   form: FormGroup;
 
@@ -34,7 +34,7 @@ export class OrganizerComponent implements OnInit {
       )
       .subscribe(tasks => {
         this.tasks = tasks;
-        this.loading = false;
+        // this.loading = false;
       });
   }
 
@@ -58,5 +58,18 @@ export class OrganizerComponent implements OnInit {
     this.taskService.removeTask(task).subscribe(taskResponse => {
       this.tasks = this.tasks.filter(item => item.id !== task.id);
     }, err => console.error(err));
+  }
+
+  changeComplete(task: ITask) {
+    if (task.completed === true) {
+      this.taskService.completeTask(task).subscribe(taskResponse => {
+        this.tasks.find(item => item.id === task.id).completed = false;
+    });
+    }
+    {
+      this.taskService.uncompleteTask(task).subscribe(taskResponse => {
+        this.tasks.find(item => item.id === task.id).completed = true;
+      });
+    }
   }
 }
