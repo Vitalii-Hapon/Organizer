@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DateService} from '../../core/services/date.service';
+import * as moment from 'moment';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-selector',
@@ -7,14 +9,16 @@ import {DateService} from '../../core/services/date.service';
   styleUrls: ['./selector.component.scss']
 })
 export class SelectorComponent implements OnInit {
+  date: BehaviorSubject<moment.Moment>;
 
-  constructor(public dateService: DateService) {
+  constructor(private dateService: DateService) {
   }
 
   ngOnInit(): void {
+    this.date = this.dateService.date;
   }
 
   toGo(direction: number) {
     this.dateService.changeMonth(direction);
-  }
+}
 }

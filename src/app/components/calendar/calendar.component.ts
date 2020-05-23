@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {DateService} from '../../core/services/date.service';
+
 interface IDay {
   value: moment.Moment;
   active: boolean;

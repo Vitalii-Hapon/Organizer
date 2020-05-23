@@ -8,7 +8,7 @@ import * as moment from 'moment';
 export interface ITask {
   id?: string;
   title: string;
-  date?: string;
+  date: string;
   completed: boolean;
 }
 
@@ -50,16 +50,10 @@ export class TaskService {
       .delete<void>(`${TaskService.url}/${task.date}/${task.id}.json`);
   }
 
-  completeTask(task: ITask): Observable<ITask> {
+  changeTaskState(task: ITask, state: boolean) {
     return this.http
-      .put<ITask>(`${TaskService.url}/${task.date}/${task.id}.json`,
-        {completed: true});
-  }
-
-  uncompleteTask(task: ITask): Observable<ITask> {
-    return this.http
-      .put<ITask>(`${TaskService.url}/${task.date}/${task.id}.json`,
-        {completed: false});
+      .patch<ITask>(`${TaskService.url}/${task.date}/${task.id}.json`,
+        {completed: state});
   }
 }
 

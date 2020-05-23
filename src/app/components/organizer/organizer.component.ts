@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {DateService} from '../../core/services/date.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ITask, TaskService} from '../../core/services/task.service';
-import {switchMap} from 'rxjs/operators';
+import {delay, switchMap} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-organizer',
@@ -10,15 +12,17 @@ import {switchMap} from 'rxjs/operators';
   styleUrls: ['./organizer.component.scss']
 })
 export class OrganizerComponent implements OnInit {
-  // loading = true;
+  loading: boolean;
   tasks: ITask[] = [];
   form: FormGroup;
+  date: BehaviorSubject<moment.Moment>;
 
-  constructor(public dateService: DateService,
+  constructor(private dateService: DateService,
               private taskService: TaskService) {
   }
 
   ngOnInit(): void {
+    this.date = this.dateService.date;
     this.getTasks();
 
     this.form = new FormGroup({
@@ -27,14 +31,15 @@ export class OrganizerComponent implements OnInit {
   }
 
   getTasks() {
+    this.loading = true;
     this.dateService.date
       .pipe(
-        // delay(1500),
+        delay(1500),
         switchMap(value => this.taskService.getTasks(value))
       )
       .subscribe(tasks => {
         this.tasks = tasks;
-        // this.loading = false;
+        this.loading = false;
       });
   }
 
@@ -50,7 +55,6 @@ export class OrganizerComponent implements OnInit {
     this.taskService.createTask(task).subscribe(taskResponse => {
       this.tasks.push(taskResponse);
       this.form.reset();
-      console.log(taskResponse);
     }, err => console.error(err));
   }
 
@@ -60,16 +64,27 @@ export class OrganizerComponent implements OnInit {
     }, err => console.error(err));
   }
 
-  changeComplete(task: ITask) {
+  toggleComplete(task: ITask) {
     if (task.completed === true) {
-      this.taskService.completeTask(task).subscribe(taskResponse => {
-        this.tasks.find(item => item.id === task.id).completed = false;
-    });
+      const state = false;
+      this.changeTaskState(task, state);
+    } else {
+      const state = true;
+      this.changeTaskState(task, state);
     }
-    {
-      this.taskService.uncompleteTask(task).subscribe(taskResponse => {
-        this.tasks.find(item => item.id === task.id).completed = true;
-      });
+  }
+
+  changeTaskState(task: ITask, state: boolean) {
+    this.taskService.changeTaskState(task, state).subscribe(taskResponse => {
+      this.tasks.find(item => item.id === task.id).completed = state;
+    });
+  }
+
+  taskStateTitle(task: ITask): string {
+    if (task.completed === true) {
+      return 'unFinish';
+    } else {
+      return 'Finish';
     }
   }
 }

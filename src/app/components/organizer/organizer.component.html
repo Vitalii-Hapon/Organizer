@@ -3,26 +3,25 @@
   <header>
     Organizer
     <strong>
-      {{ dateService.date | async | moment:('DD.MM.YYYY')}}
+      {{ date | async | moment:('DD.MM.YYYY')}}
     </strong>
     <hr>
   </header>
 
   <main>
-    <!--<ng-container *ngIf="!loading; else Loading">-->
+    <ng-container *ngIf="!loading; else Loading">
     <ul *ngIf="tasks.length; else NoTasks">
       <li class="task"
           *ngFor="let task of tasks; let i = index">
 
-        <span [class.completed]="task.completed" >
-          <strong>{{i}}
-          </strong>
-          {{task.title}}
+        <span [class.completed]="task.completed">
+          <strong>{{ i + 1 }}</strong>
+          {{ task.title }}
         </span>
 
-        <button class="btn btn--primary"
-                (click)="changeComplete(task)">
-          {{task.completed ? 'clear' : 'complete'}}
+        <button class="btn btn--secondary"
+                (click)="toggleComplete(task)">
+          {{ taskStateTitle(task)}}
         </button>
 
         <button class="btn btn--primary"
@@ -32,11 +31,11 @@
 
       </li>
     </ul>
-    <!--</ng-conta/iner>-->
+    </ng-container>
 
-    <!--<ng-template #Loading>-->
-      <!--<span>Loading...</span>-->
-    <!--</ng-template>-->
+    <ng-template #Loading>
+      <span>Loading...</span>
+    </ng-template>
 
     <ng-template #NoTasks>
       <span>No tasks yet...</span>
