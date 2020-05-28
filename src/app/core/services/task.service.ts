@@ -50,10 +50,10 @@ export class TaskService {
       .delete<void>(`${TaskService.url}/${task.date}/${task.id}.json`);
   }
 
-  changeTaskState(task: ITask, state: boolean) {
+  toggleComplete(task: ITask) {
     return this.http
-      .patch<ITask>(`${TaskService.url}/${task.date}/${task.id}.json`,
-        {completed: state});
+      .patch<void>(`${TaskService.url}/${task.date}/${task.id}.json`,
+        {completed: !task.completed});
   }
 }
 

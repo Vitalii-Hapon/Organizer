@@ -65,19 +65,9 @@ export class OrganizerComponent implements OnInit {
   }
 
   toggleComplete(task: ITask) {
-    if (task.completed === true) {
-      const state = false;
-      this.changeTaskState(task, state);
-    } else {
-      const state = true;
-      this.changeTaskState(task, state);
-    }
-  }
-
-  changeTaskState(task: ITask, state: boolean) {
-    this.taskService.changeTaskState(task, state).subscribe(taskResponse => {
-      this.tasks.find(item => item.id === task.id).completed = state;
-    });
+    this.taskService.toggleComplete(task).subscribe(taskResponse => {
+      this.tasks.find(item => item.id === task.id).completed = !task.completed;
+    }, err => console.log(err));
   }
 
   taskStateTitle(task: ITask): string {
